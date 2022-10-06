@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sausocialdb
+    username: postgres
+    password: ld2erw71904
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    username: 
+    password: odiakqkqduyrcmpe
+    protocol: smtps
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher

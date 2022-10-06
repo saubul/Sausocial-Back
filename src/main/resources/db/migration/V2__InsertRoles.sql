@@ -1,0 +1,1 @@
+INSERT INTO roles(id, name) values(nextval('role_id_seq'), 'ROLE_USER'), (nextval('role_id_seq'), 'ROLE_ADMIN');

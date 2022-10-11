@@ -46,6 +46,7 @@ public class SecurityConfig{
 			.authorizeRequests(auth -> auth
 				.antMatchers("/api/auth/**", 
 							"/api/post/getAllPosts",
+							"/api/post/**",
 							"/api/subreddit/getAllSubreddits",
 							"/v2/api-docs",
 							"/configuration/ui",

@@ -7,9 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice.Return;
-import net.bytebuddy.asm.Advice.This;
 import ru.saubulprojects.sausocial.dto.PostDTO;
+import ru.saubulprojects.sausocial.dto.PostRequest;
 import ru.saubulprojects.sausocial.entity.Post;
 import ru.saubulprojects.sausocial.exception.SausocialException;
 import ru.saubulprojects.sausocial.repository.PostRepository;
@@ -45,6 +44,20 @@ public class PostServiceImpl implements PostService {
 						.build();
 		postRepo.save(post);
 		return postDTO;
+	}
+	
+	@Override
+	public PostRequest savePost(PostRequest postRequest) {
+		Post post = Post.builder()
+							.postName(postRequest.getPostName())
+							.url(postRequest.getUrl())
+							.text(postRequest.getDescription())
+							.user(userService.findUserByUsername(postRequest.getUsername()))
+							.subreddit(subredditService.findSubredditByName(postRequest.getSubredditName()))
+							.voteCount(0)
+						.build();
+		postRepo.save(post);
+		return postRequest;
 	}
 
 	@Override
@@ -88,5 +101,5 @@ public class PostServiceImpl implements PostService {
 	public List<PostDTO> findPostsDTOBySubredditId(Long id) {
 		return postRepo.findAllBySubreddit(subredditService.findSubredditById(id)).stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
 	}
-	
+
 }

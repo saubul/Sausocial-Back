@@ -1,5 +1,7 @@
 package ru.saubulprojects.sausocial.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,12 @@ public class SubredditController {
 		
 		return new ResponseEntity<>(subredditService.getSubredditPage(pageNo), HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/getAllSubreddits")
+	public HttpEntity<List<SubredditDTO>> getAllSubreddits() {
+		
+		return new ResponseEntity<>(subredditService.getAllSubreddits(), HttpStatus.OK);
 	}
 	
 }

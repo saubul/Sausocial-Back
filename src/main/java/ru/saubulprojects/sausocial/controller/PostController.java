@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.saubulprojects.sausocial.dto.PostDTO;
+import ru.saubulprojects.sausocial.dto.PostRequest;
 import ru.saubulprojects.sausocial.entity.Post;
 import ru.saubulprojects.sausocial.service.PostService;
 
@@ -27,6 +28,11 @@ public class PostController {
 	@PostMapping("/create")
 	public HttpEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
 		 return new ResponseEntity<>(postService.savePost(postDTO), HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/create-post")
+	public HttpEntity<PostRequest> createPost(@RequestBody PostRequest postRequest) {
+		 return new ResponseEntity<>(postService.savePost(postRequest), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{id}")

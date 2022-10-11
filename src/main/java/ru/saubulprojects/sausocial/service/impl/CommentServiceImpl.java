@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice.This;
 import ru.saubulprojects.sausocial.dto.CommentDTO;
 import ru.saubulprojects.sausocial.entity.Comment;
 import ru.saubulprojects.sausocial.entity.NotificationEmail;

@@ -1,5 +1,6 @@
 package ru.saubulprojects.sausocial.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,7 @@ public class SubredditServiceImpl implements SubredditService {
 		Subreddit subreddit = Subreddit.builder()
 										   .name(subredditDTO.getName())
 										   .description(subredditDTO.getDescription())
-										   .user(userService.findUserById(subredditDTO.getUserId()))
+										   .user(userService.findUserByUsername(subredditDTO.getUsername()))
 									   .build();
 		return subredditRepo.save(subreddit);
 	}
@@ -58,12 +59,20 @@ public class SubredditServiceImpl implements SubredditService {
 		return subreddit;
 	}
 	
+	@Override
+	public List<SubredditDTO> getAllSubreddits() {
+		return subredditRepo.findAll().stream().map(subreddit -> {return this.buildSubredditDTO(subreddit);}).collect(Collectors.toList());
+	}
+	
 	private SubredditDTO buildSubredditDTO(Subreddit subreddit) {
 		return SubredditDTO.builder()
 							   .name(subreddit.getName())
 							   .description(subreddit.getDescription())
-							   .userId(subreddit.getUser().getId())
+							   .id(subreddit.getId())
+							   .postCount(subreddit.getPosts().size())
+							   .username(subreddit.getUser().getUsername())
 						   .build();
 	}
+
 
 }

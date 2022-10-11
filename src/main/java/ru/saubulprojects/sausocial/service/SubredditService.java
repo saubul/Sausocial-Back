@@ -1,5 +1,7 @@
 package ru.saubulprojects.sausocial.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 
 import ru.saubulprojects.sausocial.dto.SubredditDTO;
@@ -14,4 +16,6 @@ public interface SubredditService {
 	Subreddit findSubredditById(Long id);
 
 	Subreddit findSubredditByName(String subredditName);
+
+	List<SubredditDTO> getAllSubreddits();
 }

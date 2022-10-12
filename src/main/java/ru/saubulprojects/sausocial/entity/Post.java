@@ -48,8 +48,8 @@ public class Post {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subreddit_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "subreddit_id_fk"))
 	private Subreddit subreddit;
-	
-	@Transient
+		
 	@OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "post_id")
 	private List<Comment> comments;
 }

@@ -1,6 +1,7 @@
 package ru.saubulprojects.sausocial.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -34,7 +35,7 @@ public class Comment {
 	
 	@CreationTimestamp
 	@Column(name = "date_created")
-	private LocalDate dateCreated;
+	private LocalDateTime dateCreated;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "user_id_fk"))

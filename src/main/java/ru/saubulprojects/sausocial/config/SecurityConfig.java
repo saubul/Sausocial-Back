@@ -64,7 +64,8 @@ public class SecurityConfig{
 				.and()
 			.formLogin(log -> log
 				.loginProcessingUrl("/api/auth/login"))
-			.cors();
+			.cors().and()
+			.formLogin().disable();
 		return http.build();
 	}
 	

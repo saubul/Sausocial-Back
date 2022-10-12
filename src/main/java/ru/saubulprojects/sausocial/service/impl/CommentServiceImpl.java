@@ -30,12 +30,13 @@ public class CommentServiceImpl implements CommentService{
 	public CommentDTO saveComment(CommentDTO commentDTO) {
 		Comment comment = Comment.builder()
 									 .text(commentDTO.getText())
-									 .user(userService.findUserById(commentDTO.getUserId()))
+									 .user(userService.findUserByUsername(commentDTO.getUsername()))
 									 .post(postService.findPostModelById(commentDTO.getPostId()))
 								 .build();
 		
 		Post post = postService.findPostModelById(comment.getPost().getId());
 		sendCommentNotification(comment.getUser().getUsername() + " posted a comment to your post.", post.getUser());
+		commentRepo.save(comment);
 		return commentDTO;
 	}
 
@@ -59,9 +60,9 @@ public class CommentServiceImpl implements CommentService{
 		return CommentDTO.builder()
 							 .id(comment.getId())
 						 	 .text(comment.getText())
-						 	 .userId(comment.getUser().getId())
+						 	 .username(comment.getUser().getUsername())
 						 	 .postId(comment.getPost().getId())
-						 	 .dateCreated(comment.getDateCreated().toString())
+						 	 .duration(comment.getDateCreated().toString())
 						 .build();
 	}
 }

@@ -13,8 +13,8 @@ public class CommentDTO {
 
 	private Long id;
 	private String text;
-	private Long userId;
+	private String username;
 	private Long postId;
-	private String dateCreated;
+	private String duration;
 	
 }

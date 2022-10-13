@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			throws ServletException, IOException {
 		
 		if(request.getServletPath().equals("/api/auth/login") || 
-		   request.getServletPath().equals("/api/token/refresh/")) {
+		   request.getServletPath().equals("/api/auth/refreshToken")) {
 			filterChain.doFilter(request, response);
 			return;
 		} 
@@ -58,9 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 				filterChain.doFilter(request, response);
 				
 			} catch (Exception e) {
-				
-				response.setHeader("Error", e.getMessage());
-				new ObjectMapper().writeValue(response.getOutputStream(), "Error message" + e.getMessage());
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 				
 			}
 		} else {

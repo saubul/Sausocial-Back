@@ -93,15 +93,15 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 				
 				Algorithm algo = Algorithm.HMAC256("secret".getBytes());
 				JWTVerifier verifier = JWT.require(algo).build();
-				DecodedJWT decodedJWT = verifier.verify(refreshToken);
 				
+				DecodedJWT decodedJWT = JWT.decode(refreshToken);
 				String username = decodedJWT.getSubject();
 				
 				User user = userService.findUserByUsername(username);
-				
+				Date expiresAt = new Date(System.currentTimeMillis() + jwtExpirationTime);
 				String accessToken = JWT.create()
 											.withSubject(user.getUsername())
-											.withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationTime))
+											.withExpiresAt(expiresAt)
 											.withIssuer(request.getRequestURL().toString())
 											.withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
 										.sign(algo);
@@ -109,12 +109,15 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 				Map<String, String> tokens = new HashMap<>();
 				tokens.put("accessToken", accessToken);
 				tokens.put("refreshToken", refreshToken);
+				tokens.put("username", user.getUsername());
+				tokens.put("expiresAt", expiresAt.toString());
+				
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 				
+				
 			} catch (Exception e) {
-				response.setHeader("Error", e.getMessage());
-				new ObjectMapper().writeValue(response.getOutputStream(), "Error message" + e.getMessage());
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 			}
 		} else {
 			throw new RuntimeException("Refresh token is missing");

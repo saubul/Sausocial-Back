@@ -86,7 +86,5 @@ public class UserPassAuthFilter extends UsernamePasswordAuthenticationFilter{
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 		
-		
-		//filter.doFilter(request, response);
 	}
 }

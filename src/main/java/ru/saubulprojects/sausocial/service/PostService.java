@@ -20,5 +20,6 @@ public interface PostService {
 	List<PostDTO> findPostsDTOBySubredditId(Long id);
 
 	List<PostDTO> getPosts();
+	List<PostDTO> getPostsByUser(String username);
 	
 }

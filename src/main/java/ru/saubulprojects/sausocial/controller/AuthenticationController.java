@@ -43,7 +43,6 @@ public class AuthenticationController {
 	
 	@GetMapping("/refreshToken")
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
-			
 		authenticationService.refreshToken(request, response);
 		
 	}

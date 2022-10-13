@@ -50,8 +50,13 @@ public class PostController {
 	}
 	
 	@GetMapping("/getAllPosts")
-	public HttpEntity<List<PostDTO>>getAllPosts(){
+	public HttpEntity<List<PostDTO>> getAllPosts(){
 		return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getAllPosts/{username}")
+	public HttpEntity<List<PostDTO>> getAllPostsByUser(@PathVariable("username") String username){
+		return new ResponseEntity<>(postService.getPostsByUser(username), HttpStatus.OK);
 	}
 	
 }

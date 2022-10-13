@@ -7,10 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import ru.saubulprojects.sausocial.entity.Post;
 import ru.saubulprojects.sausocial.entity.Subreddit;
+import ru.saubulprojects.sausocial.entity.User;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long>{
 
 	List<Post> findAllBySubreddit(Subreddit subreddit);
+	
+	List<Post>findAllByUser(User user); 
 
 }

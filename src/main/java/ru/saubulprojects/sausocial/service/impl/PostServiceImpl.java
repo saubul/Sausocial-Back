@@ -102,4 +102,10 @@ public class PostServiceImpl implements PostService {
 		return postRepo.findAllBySubreddit(subredditService.findSubredditById(id)).stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<PostDTO> getPostsByUser(String username) {
+		
+		return postRepo.findAllByUser(userService.findUserByUsername(username)).stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
+	}
+
 }

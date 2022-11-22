@@ -1,5 +1,6 @@
 package ru.saubulprojects.sausocial.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -19,6 +20,8 @@ import ru.saubulprojects.sausocial.service.MailService;
 public class MailServiceImpl implements MailService{
 	
 	private final JavaMailSender javaMailSender;
+	@Value("${spring.mail.username}")
+	private String from;
 	
 	@Override
 	@Async
@@ -27,7 +30,7 @@ public class MailServiceImpl implements MailService{
 		MimeMessagePreparator mimeMessagePreparator = (mimeMessage) -> {
 				
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-			mimeMessageHelper.setFrom("***");
+			mimeMessageHelper.setFrom(from);
 			mimeMessageHelper.setTo(notificationEmail.getRecipient());
 			mimeMessageHelper.setSubject(notificationEmail.getSubject());
 			mimeMessageHelper.setText(notificationEmail.getBody());

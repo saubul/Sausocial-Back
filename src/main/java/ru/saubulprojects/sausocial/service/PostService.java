@@ -22,4 +22,6 @@ public interface PostService {
 	List<PostDTO> getPosts();
 	List<PostDTO> getPostsByUser(String username);
 	
+	void deletePostById(Long postId);
+	
 }

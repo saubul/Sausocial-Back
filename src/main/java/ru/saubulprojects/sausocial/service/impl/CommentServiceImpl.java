@@ -28,13 +28,14 @@ public class CommentServiceImpl implements CommentService{
 	
 	@Override
 	public CommentDTO saveComment(CommentDTO commentDTO) {
+		Post post = postService.findPostModelById(commentDTO.getPostId());
 		Comment comment = Comment.builder()
 									 .text(commentDTO.getText())
 									 .user(userService.findUserByUsername(commentDTO.getUsername()))
-									 .post(postService.findPostModelById(commentDTO.getPostId()))
+									 .post(post)
 								 .build();
 		
-		Post post = postService.findPostModelById(comment.getPost().getId());
+		
 		sendCommentNotification(comment.getUser().getUsername() + " posted a comment to your post.", post.getUser());
 		commentRepo.save(comment);
 		return commentDTO;
@@ -43,7 +44,7 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public List<CommentDTO> findAllCommentsByPostId(Long postId) {
 		return commentRepo.findAllByPost(postService.findPostModelById(postId))
-						  .stream().map(comment -> {return this.buildCommentDTO(comment);})
+						  .stream().map(comment -> CommentDTO.buildCommentDTO(comment))
 						  .collect(Collectors.toList());
 	}
 
@@ -56,13 +57,4 @@ public class CommentServiceImpl implements CommentService{
 	}
 	
 	
-	private CommentDTO buildCommentDTO(Comment comment) {
-		return CommentDTO.builder()
-							 .id(comment.getId())
-						 	 .text(comment.getText())
-						 	 .username(comment.getUser().getUsername())
-						 	 .postId(comment.getPost().getId())
-						 	 .duration(comment.getDateCreated().toString())
-						 .build();
-	}
 }

@@ -1,16 +1,14 @@
 package ru.saubulprojects.sausocial.service;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ru.saubulprojects.sausocial.dto.RegisterRequest;
+import ru.saubulprojects.sausocial.dto.UserDTO;
 import ru.saubulprojects.sausocial.entity.User;
 
 public interface AuthenticationService {
 	
-	void signUp(RegisterRequest registerRequest);
+	void signUp(UserDTO userDTO);
 
 	void verifyAccount(String token);
 	

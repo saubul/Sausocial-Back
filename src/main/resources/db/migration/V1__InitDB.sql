@@ -7,7 +7,7 @@ create sequence user_id_seq start 1 increment 1;
 create sequence vote_id_seq start 1 increment 1;
 create table comments (
        id int8 not null,
-        date_created date,
+        date_created timestamp,
         text varchar(255),
         post_id int8,
         user_id int8,
@@ -16,8 +16,8 @@ create table comments (
 create table posts (
        id int8 not null,
         date_created date,
-        text varchar(2000),
         post_name varchar(255),
+        text varchar(255),
         url varchar(255),
         vote_count int4,
         subreddit_id int8,
@@ -46,11 +46,14 @@ create table tokens (
     );
 create table users (
        id int8 not null,
+        birthday date,
+        country varchar(255),
         date_created date,
         email varchar(255),
         enabled boolean not null,
         name varchar(255),
         password varchar(255),
+        surname varchar(255),
         username varchar(255),
         primary key (id)
     );

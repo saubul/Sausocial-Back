@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<packaging>jar</packaging>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -90,6 +91,18 @@
 						</exclude>
 					</excludes>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<executable>true</executable>
+							<classifier>spring-boot</classifier>
+							<mainClass>SausocialApplication.java</mainClass>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

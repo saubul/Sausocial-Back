@@ -14,6 +14,7 @@ public interface UserService extends UserDetailsService {
 	UserDTO saveUserDTO(User user);
 	
 	User findUserByUsername(String username);
+	UserDTO findUserModelByUsername(String username);
 	
 	Page<UserDTO> findUsers(int pageNo, int pageSize);
 

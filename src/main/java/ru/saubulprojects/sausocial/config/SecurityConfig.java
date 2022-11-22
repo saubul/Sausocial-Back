@@ -47,6 +47,7 @@ public class SecurityConfig{
 				.antMatchers("/api/auth/**", 
 							"/api/post/**",
 							"/api/subreddit/getAllSubreddits",
+							"/api/comments/getComments/{postId}",
 							"/v2/api-docs",
 							"/configuration/ui",
 							"/swagger-resources/**",

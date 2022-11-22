@@ -32,6 +32,11 @@ public class UserController {
 		return new ResponseEntity<>(userService.findUsers(pageNo, 5), HttpStatus.OK);
 	}
 	
+	@GetMapping
+	public HttpEntity<UserDTO> getUserByUsername(@RequestParam("username") String username){
+		return new ResponseEntity<UserDTO>(userService.findUserModelByUsername(username), HttpStatus.OK);
+	}
+	
 	@PostMapping("/save")
 	public HttpEntity<UserDTO> saveUser(@RequestBody User user) {
 		log.info("saveUser() method of " + UserController.class + " with User ID: {}", user.getId());

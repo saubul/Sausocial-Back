@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import ru.saubulprojects.sausocial.dto.RegisterRequest;
+import ru.saubulprojects.sausocial.dto.UserDTO;
 import ru.saubulprojects.sausocial.service.AuthenticationService;
 
 @RestController
@@ -26,9 +26,9 @@ public class AuthenticationController {
 	private final AuthenticationService authenticationService;
 	
 	@PostMapping("/signUp")
-	public HttpEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
+	public HttpEntity<String> signUp(@RequestBody UserDTO userDTO) {
 			
-		authenticationService.signUp(registerRequest);
+		authenticationService.signUp(userDTO);
 		return new ResponseEntity<>("User registration successful.", HttpStatus.CREATED);
 		
 	}

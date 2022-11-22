@@ -29,15 +29,14 @@ public class PostServiceImpl implements PostService {
 	public PostDTO findPostById(Long id) {
 		Optional<Post> postOptional = postRepo.findById(id);
 		Post post = postOptional.orElseThrow(() -> new SausocialException(String.format("Post with ID: %s not found", id)));
-		return this.buildPostDTO(post);
+		return PostDTO.buildPostDTO(post);
 	}
 
 	@Override
 	public PostDTO savePost(PostDTO postDTO) {
 		Post post = Post.builder()
 							.postName(postDTO.getPostName())
-							.url(postDTO.getUrl())
-							.text(postDTO.getDescription())
+							.text(postDTO.getText())
 							.user(userService.findUserByUsername(postDTO.getUsername()))
 							.subreddit(subredditService.findSubredditByName(postDTO.getSubredditName()))
 							.voteCount(0)
@@ -73,21 +72,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDTO> getPosts() {
-		return postRepo.findAll().stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
-	}
-	
-	private PostDTO buildPostDTO(Post post) {
-		return PostDTO.builder()
-				  .id(post.getId())
-				  .postName(post.getPostName())
-				  .url(post.getUrl())
-				  .description(post.getText())
-				  .username(post.getUser().getUsername())
-				  .subredditName(post.getSubreddit().getName())
-				  .voteCount(post.getVoteCount())
-				  .commentCount(post.getComments() != null? post.getComments().size() : 0)
-				  .duration(post.getDateCreated().toString())
-			  .build();
+		return postRepo.findAll().stream().map(post -> PostDTO.buildPostDTO(post)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -99,13 +84,18 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDTO> findPostsDTOBySubredditId(Long id) {
-		return postRepo.findAllBySubreddit(subredditService.findSubredditById(id)).stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
+		return postRepo.findAllBySubreddit(subredditService.findSubredditById(id)).stream().map(post -> PostDTO.buildPostDTO(post)).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<PostDTO> getPostsByUser(String username) {
 		
-		return postRepo.findAllByUser(userService.findUserByUsername(username)).stream().map(post -> {return this.buildPostDTO(post);}).collect(Collectors.toList());
+		return postRepo.findAllByUser(userService.findUserByUsername(username)).stream().map(post -> PostDTO.buildPostDTO(post)).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deletePostById(Long postId) {
+		postRepo.deleteById(postId);
 	}
 
 }

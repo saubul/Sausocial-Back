@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.saubulprojects.sausocial.entity.Subreddit;
 
 @Data
 @NoArgsConstructor
@@ -16,5 +17,15 @@ public class SubredditDTO {
 	private String name;
 	private String description;
 	private int postCount;
+	
+	public static SubredditDTO builSubredditDTO(Subreddit subreddit) {
+		SubredditDTO subredditDTO = SubredditDTO.builder()
+													.name(subreddit.getName())
+													.postCount(subreddit.getPosts().size())
+													.username(subreddit.getUser().getUsername())
+													.description(subreddit.getDescription())
+												.build();
+		return subredditDTO;
+	}
 	
 }

@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Page<UserDTO> findUsers(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		return new PageImpl<>(userRepo.findAll(pageable).stream().map(user -> {return this.buildUserDTO(user);}).collect(Collectors.toList()));
+		return new PageImpl<>(userRepo.findAll(pageable).stream().map(user -> UserDTO.buildUserDTO(user)).collect(Collectors.toList()));
 	}
 	
 	@Override
@@ -91,16 +91,14 @@ public class UserServiceImpl implements UserService {
 		Collection<Role> roles = user.getRoles().stream().map(role -> roleRepo.findByName(role.getName())).collect(Collectors.toList());
 		user.setRoles(roles);
 		userRepo.save(user);
-		return this.buildUserDTO(user);
+		return UserDTO.buildUserDTO(user);
 	}
 
-	private UserDTO buildUserDTO(User user) {
-		return UserDTO.builder()
-						  .id(user.getId())
-						  .email(user.getEmail())
-						  .username(user.getUsername())
-						  .url("http://localhost:8080/user/"+user.getUsername())
-					  .build();
+	@Override
+	public UserDTO findUserModelByUsername(String username) {
+		User user = userRepo.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with %s username not found", username)));
+		UserDTO userDTO = UserDTO.buildUserDTO(user);
+		return userDTO;
 	}
 
 }

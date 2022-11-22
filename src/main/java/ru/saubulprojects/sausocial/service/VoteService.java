@@ -8,5 +8,7 @@ public interface VoteService {
 	Vote saveVote(VoteDTO voteDTO);
 
 	VoteDTO saveVoteDTO(VoteDTO voteDTO);
+	
+	Boolean isLikedByUsername(Long postId, String username);
 
 }

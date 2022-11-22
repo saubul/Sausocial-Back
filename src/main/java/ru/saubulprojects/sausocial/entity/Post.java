@@ -49,7 +49,6 @@ public class Post {
 	@JoinColumn(name = "subreddit_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "subreddit_id_fk"))
 	private Subreddit subreddit;
 		
-	@OneToMany(targetEntity = Comment.class, fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id")
+	@OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Comment> comments;
 }

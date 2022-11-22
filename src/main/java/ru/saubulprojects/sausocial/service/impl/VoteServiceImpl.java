@@ -13,6 +13,7 @@ import ru.saubulprojects.sausocial.entity.VoteType;
 import ru.saubulprojects.sausocial.repository.VoteRepository;
 import ru.saubulprojects.sausocial.service.AuthenticationService;
 import ru.saubulprojects.sausocial.service.PostService;
+import ru.saubulprojects.sausocial.service.UserService;
 import ru.saubulprojects.sausocial.service.VoteService;
 
 @Service
@@ -22,6 +23,21 @@ public class VoteServiceImpl implements VoteService {
 	private final VoteRepository voteRepo;
 	private final PostService postService;
 	private final AuthenticationService authenticationService;
+	private final UserService userService;
+	
+	@Override
+	public Boolean isLikedByUsername(Long postId, String username) {
+		Post post = postService.findPostModelById(postId);
+		User user = userService.findUserByUsername(username);
+		Optional<Vote> vote = voteRepo.findByPostAndUser(post, user);
+		if(vote.isEmpty()) {
+			return false;
+		}
+		if(vote.get().getVoteType().equals(VoteType.NEUTRAL)) {
+			return false;
+		}
+		return true;
+	}
 	
 	@Override
 	public Vote saveVote(VoteDTO voteDTO) {
@@ -134,5 +150,6 @@ public class VoteServiceImpl implements VoteService {
 						  .voteType(vote.getVoteType())
 					  .build();
 	}
+
 	
 }

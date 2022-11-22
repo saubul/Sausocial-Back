@@ -1,9 +1,12 @@
 package ru.saubulprojects.sausocial.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.saubulprojects.sausocial.entity.Comment;
 
 @Data
 @NoArgsConstructor
@@ -11,10 +14,19 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CommentDTO {
 
-	private Long id;
 	private String text;
 	private String username;
 	private Long postId;
-	private String duration;
+	private LocalDateTime dateCreated;
+	
+	public static CommentDTO buildCommentDTO(Comment comment) {
+		CommentDTO commentDTO = CommentDTO.builder()
+											  .text(comment.getText())
+											  .username(comment.getUser().getUsername())
+											  .postId(comment.getPost().getId())
+											  .dateCreated(comment.getDateCreated())
+										  .build();
+		return commentDTO;
+	}
 	
 }

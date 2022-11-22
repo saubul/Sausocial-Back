@@ -1,12 +1,13 @@
 package ru.saubulprojects.sausocial.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,7 @@ public class Comment {
 	private String text;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "post_id_fk"))
 	private Post post;
 	
@@ -38,6 +40,7 @@ public class Comment {
 	private LocalDateTime dateCreated;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "user_id_fk"))
 	private User user;
 }

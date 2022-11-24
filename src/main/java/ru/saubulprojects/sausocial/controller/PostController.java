@@ -62,9 +62,9 @@ public class PostController {
 	}
 	
 	@DeleteMapping("/delete")
-	public HttpEntity<Object> deletePostById(@RequestParam("postId") Long postId) {
+	public HttpEntity<String> deletePostById(@RequestParam("postId") Long postId) {
 		postService.deletePostById(postId);
-		return new ResponseEntity<Object>(null, HttpStatus.OK);
+		return new ResponseEntity<String>("DELETED", HttpStatus.OK);
 	}
 	
 }

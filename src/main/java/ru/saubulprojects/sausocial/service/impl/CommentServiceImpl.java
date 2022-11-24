@@ -55,6 +55,12 @@ public class CommentServiceImpl implements CommentService{
 											  	  .body(message)
 											  .build());
 	}
+
+	@Override
+	public void deleteCommentById(Long commentId) {
+		commentRepo.deleteById(commentId);
+		
+	}
 	
 	
 }

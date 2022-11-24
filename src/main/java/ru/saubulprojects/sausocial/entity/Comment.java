@@ -33,7 +33,7 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@OnDelete(action=OnDeleteAction.CASCADE)
 	@JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "post_id_fk"))
-	private Post post;
+	private Post post;	
 	
 	@CreationTimestamp
 	@Column(name = "date_created")

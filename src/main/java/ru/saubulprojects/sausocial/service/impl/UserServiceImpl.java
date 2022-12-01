@@ -1,5 +1,7 @@
 package ru.saubulprojects.sausocial.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.saubulprojects.sausocial.dto.UserDTO;
@@ -39,7 +42,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User saveUser(User user) {
-		log.info("Saving new user to the database. User ID: {}", user.getId());
 		user.setPassword(passEncoder.encode(user.getPassword()));
 		Collection<Role> roles = user.getRoles().stream().map(role -> roleRepo.findByName(role.getName())).collect(Collectors.toList());
 		user.setRoles(roles);

@@ -28,7 +28,6 @@ public class UserController {
 	
 	@GetMapping("/getUsers") 
 	public HttpEntity<Page<UserDTO>> getUsers(@RequestParam("pageNo") int pageNo) {
-		log.info("getUsers() method of " + UserController.class + " with params: pageNo = {}", pageNo);
 		return new ResponseEntity<>(userService.findUsers(pageNo, 5), HttpStatus.OK);
 	}
 	
@@ -39,7 +38,6 @@ public class UserController {
 	
 	@PostMapping("/save")
 	public HttpEntity<UserDTO> saveUser(@RequestBody User user) {
-		log.info("saveUser() method of " + UserController.class + " with User ID: {}", user.getId());
 		return new ResponseEntity<UserDTO>(userService.saveUserDTO(user), HttpStatus.CREATED);
 	}
 	

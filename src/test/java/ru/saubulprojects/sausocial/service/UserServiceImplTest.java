@@ -5,21 +5,27 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
@@ -33,87 +39,53 @@ import ru.saubulprojects.sausocial.repository.UserRepository;
 import ru.saubulprojects.sausocial.service.impl.UserServiceImpl;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
-@Sql(value = {"/create-user-before.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/create-user-after.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 class UserServiceImplTest {
+	
+	@MockBean
+	private UserRepository userRepository;
+	
+	@MockBean
+	private PasswordEncoder passwordEncoder;
+	
+	@MockBean
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private UserService userService;
 	
 	@Test
 	void testSaveUser() {
-		Collection<Role> roleCollection = new ArrayList<Role>();
-		roleCollection.add(new Role("ROLE_USER"));
-		User user = new User((long) 10, 
-							 "Name", 
-							 "Surname", 
-							 "email@email.ru", 
-							 "username", 
-							 "password", 
-							 LocalDate.now(), 
-							 LocalDate.now(), 
-							 "Russia", 
-							 roleCollection, 
-							 null, 
-							 true);
+		
+		User user = new User();
+		user.setRoles(Arrays.asList(new Role("ROLE_USER")));
 		
 		User savedUser = userService.saveUser(user);
 		
-		assertEquals(user, savedUser);
+		ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
+		verify(userRepository).save(userArgumentCaptor.capture());
+		verify(passwordEncoder).encode(user.getPassword());
+		
 	}
 
 	@Test
 	void testFindUserByUsername() {
-		String username = "Saubul";
+		String username = "username";
+		
+		when(userRepository.findByUsername(Mockito.anyString())).thenReturn(Optional.of(new User()));
+		
 		User user = userService.findUserByUsername(username);
 		
-		assertThat(user).isNotNull();
-		assertEquals(user.getUsername(), "Saubul");
+		ArgumentCaptor<String> usernameArgumentCaptor = ArgumentCaptor.forClass(String.class);
+		verify(userRepository).findByUsername(usernameArgumentCaptor.capture());
+		assertEquals(username, usernameArgumentCaptor.getValue());;
 	}
 	
 	@Test
-	void testFindUserByUsernameException() {
-		String username = "saubul";
+	void testDontFindUserByUsername() {
+		String username = "username";
 		
-		assertThatThrownBy(() -> userService.findUserByUsername(username)).isInstanceOf(UsernameNotFoundException.class);
+		assertThrows(UsernameNotFoundException.class, () -> userService.findUserByUsername(username));
 	}
 
-	@Test
-	@Disabled
-	void testFindUsers() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	@Disabled
-	void testLoadUserByUsername() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	@Disabled
-	void testFindUserById() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	@Disabled
-	void testSaveUserDTO() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	@Disabled
-	void testFindUserModelByUsername() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	@Disabled
-	void testUserServiceImpl() {
-		fail("Not yet implemented");
-	}
 
 }

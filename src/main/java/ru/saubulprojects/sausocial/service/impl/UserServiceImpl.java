@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 	public User findUserByUsername(String username) {
 		Optional<User> userOptional = userRepo.findByUsername(username);
 		
-		return userOptional.orElseThrow(() -> new UsernameNotFoundException(String.format("User with %s username not found", username)));
+		return userOptional.orElseThrow(() -> new UsernameNotFoundException(String.format("User with '%s' username not found", username)));
 	}
 
 	@Override

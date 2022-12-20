@@ -21,7 +21,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	
@@ -34,9 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			filterChain.doFilter(request, response);
 			return;
 		} 
+		
 		String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 		if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 			try {
+				
 				String token = authorizationHeader.substring("Bearer ".length());
 	
 				JWTVerifier verifier = JWT.require(Algorithm.HMAC256("secret".getBytes())).build();

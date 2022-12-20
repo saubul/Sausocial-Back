@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ru.saubulprojects.sausocial.dto.PostDTO;
 import ru.saubulprojects.sausocial.dto.PostRequest;
-import ru.saubulprojects.sausocial.entity.Comment;
 import ru.saubulprojects.sausocial.entity.Post;
 import ru.saubulprojects.sausocial.exception.SausocialException;
-import ru.saubulprojects.sausocial.repository.CommentRepository;
 import ru.saubulprojects.sausocial.repository.PostRepository;
 import ru.saubulprojects.sausocial.service.PostService;
 import ru.saubulprojects.sausocial.service.SubredditService;
@@ -25,7 +23,6 @@ public class PostServiceImpl implements PostService {
 	private final PostRepository postRepo;
 	private final SubredditService subredditService;
 	private final UserService userService;
-	private final CommentRepository commentRepository;
 
 	
 	@Override
@@ -100,6 +97,21 @@ public class PostServiceImpl implements PostService {
 	public void deletePostById(Long postId) {
 		
 		postRepo.deleteById(postId);
+	}
+
+	@Override
+	public List<PostDTO> filterByLiked(String username) {
+		return null;
+	}
+
+	@Override
+	public List<PostDTO> filterBySubscribed(String username) {
+		return postRepo.findAllByUserSubscribed(userService.findUserByUsername(username)).stream().map(post -> PostDTO.buildPostDTO(post)).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<PostDTO> findAllPostsByString(String string) {
+		return postRepo.findAllByTextContainingIgnoreCase(string).stream().map(post -> PostDTO.buildPostDTO(post)).collect(Collectors.toList());
 	}
 
 }

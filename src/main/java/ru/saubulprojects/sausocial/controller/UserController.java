@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import ru.saubulprojects.sausocial.dto.UserDTO;
 import ru.saubulprojects.sausocial.entity.User;
 import ru.saubulprojects.sausocial.service.UserService;
@@ -21,7 +20,6 @@ import ru.saubulprojects.sausocial.service.UserService;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-@Slf4j
 public class UserController {
 	
 	private final UserService userService;

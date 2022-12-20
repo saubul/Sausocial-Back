@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.saubulprojects.sausocial.dto.VoteDTO;
-import ru.saubulprojects.sausocial.entity.Vote;
 import ru.saubulprojects.sausocial.service.VoteService;
 
 @RestController

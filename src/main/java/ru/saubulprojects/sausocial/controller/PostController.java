@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import ru.saubulprojects.sausocial.dto.PostDTO;
 import ru.saubulprojects.sausocial.dto.PostRequest;
-import ru.saubulprojects.sausocial.entity.Post;
 import ru.saubulprojects.sausocial.service.PostService;
 
 @RestController
@@ -65,6 +64,22 @@ public class PostController {
 	public HttpEntity<String> deletePostById(@RequestParam("postId") Long postId) {
 		postService.deletePostById(postId);
 		return new ResponseEntity<String>("DELETED", HttpStatus.OK);
+	}
+	
+	@GetMapping("/filter")
+	public HttpEntity<List<PostDTO>> getPostsByUserSubscribed(@RequestParam("username") String username,
+															  @RequestParam("filterStatus") String filterStatus) {
+		if(filterStatus.equals("subscribed")) {
+			System.out.println("SUBSCRIBED--------------------------");
+			return new ResponseEntity<List<PostDTO>>(postService.filterBySubscribed(username), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<List<PostDTO>>(postService.filterBySubscribed(username), HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/contains")
+	public HttpEntity<List<PostDTO>> getPostsByStringContaining(@RequestParam("string") String string) {
+		return new ResponseEntity<List<PostDTO>>(postService.findAllPostsByString(string), HttpStatus.OK);
 	}
 	
 }

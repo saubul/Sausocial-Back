@@ -1,7 +1,6 @@
 package ru.saubulprojects.sausocial.service;
 
 import ru.saubulprojects.sausocial.dto.SubscriptionDTO;
-import ru.saubulprojects.sausocial.entity.Subscription;
 
 public interface SubscriptionService {
 	

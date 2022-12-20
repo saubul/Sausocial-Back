@@ -24,4 +24,10 @@ public interface PostService {
 	
 	void deletePostById(Long postId);
 	
+	List<PostDTO> filterByLiked(String username);
+	
+	List<PostDTO> filterBySubscribed(String username);
+	
+	List<PostDTO> findAllPostsByString(String string); 
+	
 }

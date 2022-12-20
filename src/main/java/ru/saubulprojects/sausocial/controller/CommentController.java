@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.saubulprojects.sausocial.dto.CommentDTO;
-import ru.saubulprojects.sausocial.entity.Comment;
 import ru.saubulprojects.sausocial.service.CommentService;
 
 @RestController
